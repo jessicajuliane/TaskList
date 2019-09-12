@@ -3,42 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TaskList.Models;
+using WebApplication1.App_Data;
 
-namespace TaskList.Controllers
+namespace WebApplication1.Controllers
 {
-    public class TaskController : Controller
+    public class HomeController : Controller
     {
         public ActionResult Index()
         {
+
+            var conexao = new Conexion();
+            conexao.AdicionarTask(task);
+            return RedirectToAction(nameof(Index));
             return View();
         }
 
-        public ActionResult Deletar(int taskId)
+        public ActionResult ViewTask(Tasks task)
         {
-            ViewBag.Message = "Your application description page.";
+            if (ModelState.IsValid)
+            {
+                var conexao = new Conexion();
+                conexao.ListarTasks(task);
+                return RedirectToAction(nameof(Index));
+            }
+            else {
+                return View(task);
+            }
 
-            return View();
+            
         }
-
-        public ActionResult Adicionar()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
-        public ActionResult ListarTasks()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
-        public ActionResult BuscarPorId(int taskId)
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
+        
     }
 }
